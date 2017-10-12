@@ -2,30 +2,34 @@
 #include <stdlib.h>
 #include "agenda.c"
 
-int main() {
+int main()
+{
+    lireDate();
 
-    int choiceMenu = 0;
-
-    do
+    /*switch (choiceMenu)
     {
-        choiceMenu = displayMenu();
-    } while (choiceMenu < 1 || choiceMenu > 3);
+    case 1:
+        // create agenda
 
-    printf("%d", choiceMenu);
+        //printf("> Créer un agenda");
+        break;
 
-    switch (choiceMenu)
-    {
-        case 1:
-            //1
-            break;
-        case 2:
-            //2
-            break;
-        case 3:
-            return 0;
-        default:
-            return 0;
-    }
+    case 2:
+        // open agenda
 
+        char fileName[50];
+        printf("> Ouvrir un agenda, entrez le nom du fichier (file.txt) : ");
+        scanf("%s", fileName);
+
+        FILE* agendaFile = NULL
+        agendaFile = fopen(fileName, "r+");
+        break;
+
+    case 3:
+        // leave application
+
+        printf("\nApplication fermée");
+        return 0;
+    }*/
     return 0;
 }

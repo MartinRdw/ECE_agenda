@@ -3,25 +3,39 @@
 
 #endif //AGENDA_AGENDA_H
 
-int lenghtTitleAppointment = 0;
+// constants
+#define NBMAX_RDV 300
+#define LGMAX_LIBEL 50
 
-int displayMenu();
+void afficherMenu1();
+void afficherMenu2();
+int lireChoix();
 
-struct Date {
+
+typedef struct Date
+{
     int day;
     int month;
     int year;
-};
+} Date;
 
-struct Schedule {
+typedef struct Schedule
+{
     int hour;
     int minute;
-};
+} Schedule;
 
-struct Appointment {
+typedef struct Appointment
+{
     int date;
     int startSchedule;
     int endSchedule;
-    char title[lenghtTitleAppointment];
-    int remind = 0;
-};
+    char title[50];
+    int remind;
+} Appointment;
+
+typedef struct Agenda
+{
+    char title[50];
+    Appointment appointments[NBMAX_RDV];
+} Agenda;
