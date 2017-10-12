@@ -9,7 +9,17 @@
 
 void afficherMenu1();
 void afficherMenu2();
-int lireChoix();
+int lireChoix(int, int);
+struct Date lireDate();
+int dateCorrecte(struct Date);
+void afficherDate(struct Date);
+struct Schedule lireHoraire();
+int horaireCorrect(struct Schedule);
+void afficherHoraire(struct Schedule);
+struct Appointment lireRDV();
+void afficherRDV(struct Appointment);
+int horaireCoherents(struct Appointment);
+int comparerCréneauxRDV(struct Appointment, struct Appointment);
 
 
 typedef struct Date

@@ -35,19 +35,88 @@ int lireChoix(int minVal, int maxVal)
     return choiceMenu;
 }
 
-Date lireDate()
+struct Date lireDate()
 {
+    struct Date date;
+
     int day;
     int month;
     int year;
+
     printf("\nEntrez une date au format JJ/MM/AAAA : ");
     scanf("%d/%d/%d", &day, &month, &year);
-    printf("%d/%d/%d", day, month, year);
 
-    struct Date date;
     date.day = day;
     date.month = month;
     date.year = year;
 
     return date;
+}
+
+int dateCorrecte(struct Date date)
+{
+    int daysinmonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int legit = 0;
+
+    if(date.year % 400 == 0 || (date.year % 100 != 0 && date.year % 4 == 0))
+        daysinmonth[1] = 29;
+    if (date.month < 13)
+        if(date.day <= daysinmonth[date.month-1])
+        {
+            legit = 1;
+        }
+
+    return legit;
+}
+
+void afficherDate(struct Date date)
+{
+    printf("%d/%d/%d", date.day, date.month, date.year);
+}
+
+struct Schedule lireHoraire()
+{
+    struct Schedule schedule;
+
+    int hour;
+    int minute;
+
+    printf("\nEntrez un horaire au format HH:MM : ");
+    scanf("%d:%d", &hour, &minute);
+
+    schedule.hour = hour;
+    schedule.minute = minute;
+
+    return schedule;
+}
+
+int horaireCorrect(struct Schedule schedule)
+{
+    return !(schedule.hour < 0 || schedule.hour > 23 || schedule.minute < 0|| schedule.minute > 59);
+}
+
+void afficherHoraire(struct Schedule schedule)
+{
+    printf("%d:%d", schedule.hour, schedule.minute);
+}
+
+struct Appointment lireRDV()
+{
+    struct Appointment appointment;
+    return appointment;
+}
+
+void afficherRDV(struct Appointment appointment)
+{
+
+}
+
+int horaireCoherents(struct Appointment)
+{
+    return 0;
+}
+
+int comparerCréneauxRDV(rdv1, rdv2)
+{
+    return 0;
 }
