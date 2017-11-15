@@ -20,6 +20,7 @@ struct Appointment lireRDV();
 void afficherRDV(struct Appointment);
 int horaireCoherents(struct Appointment);
 int comparerCreneauxRDV(struct Appointment, struct Appointment);
+void traiterChoixCreerAgenda();
 
 
 typedef struct Date

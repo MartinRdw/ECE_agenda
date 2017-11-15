@@ -120,3 +120,29 @@ int comparerCreneauxRDV(struct Appointment rdv1, struct Appointment rdv2)
 {
     return 0;
 }
+
+void traiterChoixCreerAgenda()
+{
+    // reads new agenda s name and creates new empty file in created_agenda/
+    char agendaName[256];
+    /*do
+    {
+        printf("Nom du nouvel agenda : ");
+        scanf("%s", agendaName);
+        printf("%s", agendaName);
+    }
+    while();*/
+    printf("Nom du nouvel agenda : ");
+    scanf("%s", agendaName);
+    printf("\n");
+
+
+    FILE *fp;
+
+    char pathToAgenda[256];
+    strcpy(pathToAgenda, "./created_agenda/");
+    strcat(pathToAgenda, agendaName);
+    strcat(pathToAgenda, ".txt");
+    fp = fopen(pathToAgenda, "w+");
+    fclose(fp);
+}
