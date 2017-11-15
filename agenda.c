@@ -111,12 +111,12 @@ void afficherRDV(struct Appointment appointment)
 
 }
 
-int horaireCoherents(struct Appointment)
+int horaireCoherents(struct Appointment appointment)
 {
     return 0;
 }
 
-int comparerCréneauxRDV(rdv1, rdv2)
+int comparerCreneauxRDV(struct Appointment rdv1, struct Appointment rdv2)
 {
     return 0;
 }

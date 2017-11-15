@@ -19,7 +19,7 @@ void afficherHoraire(struct Schedule);
 struct Appointment lireRDV();
 void afficherRDV(struct Appointment);
 int horaireCoherents(struct Appointment);
-int comparerCréneauxRDV(struct Appointment, struct Appointment);
+int comparerCreneauxRDV(struct Appointment, struct Appointment);
 
 
 typedef struct Date
