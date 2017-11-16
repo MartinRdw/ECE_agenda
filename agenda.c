@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <dirent.h>
 #include "agenda.h"
 
 void afficherMenu1() {
@@ -106,7 +107,7 @@ int comparerCreneauxRDV(struct Appointment rdv1, struct Appointment rdv2) {
 }
 
 void traiterChoixCreerAgenda() {
-    // reads new agenda name and creates new empty file in created_agenda/
+    // reads new agenda s name and creates new empty file in created_agenda/
     char agendaName[256];
     /*do
     {
@@ -132,6 +133,23 @@ void traiterChoixCreerAgenda() {
 
 void traiterChoixOuvrirAgenda() {
 
+    DIR*d;
+    struct dirent *dir;
+    d = opendir("./created_agenda");
+    if (d)
+    {
+
+        printf("Liste des agendas : ");
+
+        while ((dir = readdir(d)) != NULL)
+        {
+            printf("%s\n", dir->d_name);
+        }
+        printf("\n");
+
+        closedir(d);
+    }
+
     // asking for agenda name
     char agendaName[256];
     printf("Nom du fichier agenda : ");
@@ -140,6 +158,10 @@ void traiterChoixOuvrirAgenda() {
 
     // prints agenda content
     FILE *fp;
+    char * line = NULL;
+    char * split;;
+    size_t len = 0;
+    ssize_t read;
 
     char buff[255];
 
@@ -148,13 +170,16 @@ void traiterChoixOuvrirAgenda() {
     strcat(pathToAgenda, agendaName);
     strcat(pathToAgenda, ".txt");
     fp = fopen(pathToAgenda, "r");
-    fscanf(fp, "%s", buff);
-    printf("1 : %s\n", buff );
 
-    fgets(buff, 255, (FILE*)fp);
-    printf("2: %s\n", buff );
+    //display line by line
+    while ((read = getline(&line, &len, fp)) != -1) {
+        split = strtok (line,",");
+        while (split != NULL)
+        {
+            printf ("%s\n",split);
+            split = strtok (NULL, ",");
+        }
+    }
 
-    fgets(buff, 255, (FILE*)fp);
-    printf("3: %s\n", buff );
     fclose(fp);
 }

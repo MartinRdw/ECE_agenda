@@ -23,6 +23,6 @@ int main()
     fgets(buff, 255, (FILE*)fp);
     printf("3: %s\n", buff );
     fclose(fp);*/
-    traiterChoixCreerAgenda();
+    traiterChoixOuvrirAgenda();
     return 0;
 }
