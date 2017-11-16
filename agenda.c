@@ -139,6 +139,8 @@ void traiterChoixOuvrirAgenda() {
     printf("\n");
 
     // prints agenda content
+    FILE *fp;
+
     char buff[255];
 
     char pathToAgenda[256];
