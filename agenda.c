@@ -206,9 +206,9 @@ void traiterChoixOuvrirAgenda() {
         split = strtok(NULL, ",");
         strcpy(appointments[i].title, split);
 
-        printf("%sLe %02d/%02d/%04d de %02d:%02d à %02d:%02d\n\n", appointments[i].title, appointments[i].date.day, appointments[i].date.month,
+        printf("RDV %02d/%02d/%04d %02d:%02d - %02d:%02d\n\t%s\n", appointments[i].date.day, appointments[i].date.month,
                appointments[i].date.year, appointments[i].startSchedule.hour, appointments[i].startSchedule.minute,
-               appointments[i].endSchedule.hour, appointments[i].endSchedule.minute);
+               appointments[i].endSchedule.hour, appointments[i].endSchedule.minute, appointments[i].title);
 
         i++;
     }

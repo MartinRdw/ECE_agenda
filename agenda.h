@@ -8,36 +8,47 @@
 #define LGMAX_LIBEL 50
 
 void afficherMenu1();
+
 void afficherMenu2();
+
 int lireChoix(int, int);
+
 struct Date lireDate();
+
 int dateCorrecte(struct Date);
+
 void afficherDate(struct Date);
+
 struct Schedule lireHoraire();
+
 int horaireCorrect(struct Schedule);
+
 void afficherHoraire(struct Schedule);
+
 struct Appointment lireRDV();
+
 void afficherRDV(struct Appointment);
+
 int horaireCoherents(struct Appointment);
+
 int comparerCreneauxRDV(struct Appointment, struct Appointment);
+
 void traiterChoixCreerAgenda();
+
 void traiterChoixOuvrirAgenda();
 
-typedef struct Date
-{
+typedef struct Date {
     int day;
     int month;
     int year;
 } Date;
 
-typedef struct Schedule
-{
+typedef struct Schedule {
     int hour;
     int minute;
 } Schedule;
 
-typedef struct Appointment
-{
+typedef struct Appointment {
     Date date;
     Schedule startSchedule;
     Schedule endSchedule;
@@ -45,8 +56,7 @@ typedef struct Appointment
     int remind;
 } Appointment;
 
-typedef struct Agenda
-{
+typedef struct Agenda {
     char title[50];
     Appointment appointments[NBMAX_RDV];
 } Agenda;
