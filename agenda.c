@@ -2,16 +2,14 @@
 #include <stdlib.h>
 #include "agenda.h"
 
-void afficherMenu1()
-{
+void afficherMenu1() {
     printf("> Menu 1\n\n");
     printf("1- Creer un nouvel agenda\n");
     printf("2- Ouvrir un agenda existant\n");
     printf("3- Quitter\n\n");
 }
 
-void afficherMenu2()
-{
+void afficherMenu2() {
     printf("> Menu 2\n\n");
     printf("1- Afficher un RDV\n");
     printf("2- Afficher tous les RDV\n");
@@ -22,21 +20,17 @@ void afficherMenu2()
     printf("7- Sauvegarder & fermer l’agenda\n\n");
 }
 
-int lireChoix(int minVal, int maxVal)
-{
+int lireChoix(int minVal, int maxVal) {
     int choiceMenu = -1;
-    do
-    {
+    do {
         printf("Votre choix (entre %d et %d) : ", minVal, maxVal);
         scanf("%d", &choiceMenu);
-    }
-    while(choiceMenu < minVal || choiceMenu > maxVal);
+    } while (choiceMenu < minVal || choiceMenu > maxVal);
     printf("\n");
     return choiceMenu;
 }
 
-struct Date lireDate()
-{
+struct Date lireDate() {
     struct Date date;
 
     int day;
@@ -53,29 +47,25 @@ struct Date lireDate()
     return date;
 }
 
-int dateCorrecte(struct Date date)
-{
+int dateCorrecte(struct Date date) {
     int daysinmonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int legit = 0;
 
-    if(date.year % 400 == 0 || (date.year % 100 != 0 && date.year % 4 == 0))
+    if (date.year % 400 == 0 || (date.year % 100 != 0 && date.year % 4 == 0))
         daysinmonth[1] = 29;
     if (date.month < 13)
-        if(date.day <= daysinmonth[date.month-1])
-        {
+        if (date.day <= daysinmonth[date.month - 1]) {
             legit = 1;
         }
 
     return legit;
 }
 
-void afficherDate(struct Date date)
-{
+void afficherDate(struct Date date) {
     printf("%d/%d/%d", date.day, date.month, date.year);
 }
 
-struct Schedule lireHoraire()
-{
+struct Schedule lireHoraire() {
     struct Schedule schedule;
 
     int hour;
@@ -90,40 +80,33 @@ struct Schedule lireHoraire()
     return schedule;
 }
 
-int horaireCorrect(struct Schedule schedule)
-{
-    return !(schedule.hour < 0 || schedule.hour > 23 || schedule.minute < 0|| schedule.minute > 59);
+int horaireCorrect(struct Schedule schedule) {
+    return !(schedule.hour < 0 || schedule.hour > 23 || schedule.minute < 0 || schedule.minute > 59);
 }
 
-void afficherHoraire(struct Schedule schedule)
-{
+void afficherHoraire(struct Schedule schedule) {
     printf("%d:%d", schedule.hour, schedule.minute);
 }
 
-struct Appointment lireRDV()
-{
+struct Appointment lireRDV() {
     struct Appointment appointment;
     return appointment;
 }
 
-void afficherRDV(struct Appointment appointment)
-{
+void afficherRDV(struct Appointment appointment) {
 
 }
 
-int horaireCoherents(struct Appointment appointment)
-{
+int horaireCoherents(struct Appointment appointment) {
     return 0;
 }
 
-int comparerCreneauxRDV(struct Appointment rdv1, struct Appointment rdv2)
-{
+int comparerCreneauxRDV(struct Appointment rdv1, struct Appointment rdv2) {
     return 0;
 }
 
-void traiterChoixCreerAgenda()
-{
-    // reads new agenda s name and creates new empty file in created_agenda/
+void traiterChoixCreerAgenda() {
+    // reads new agenda name and creates new empty file in created_agenda/
     char agendaName[256];
     /*do
     {
@@ -144,5 +127,32 @@ void traiterChoixCreerAgenda()
     strcat(pathToAgenda, agendaName);
     strcat(pathToAgenda, ".txt");
     fp = fopen(pathToAgenda, "w+");
+    fclose(fp);
+}
+
+void traiterChoixOuvrirAgenda() {
+
+    // asking for agenda name
+    char agendaName[256];
+    printf("Nom du fichier agenda : ");
+    scanf("%s", agendaName);
+    printf("\n");
+
+    // prints agenda content
+    char buff[255];
+
+    char pathToAgenda[256];
+    strcpy(pathToAgenda, "./created_agenda/");
+    strcat(pathToAgenda, agendaName);
+    strcat(pathToAgenda, ".txt");
+    fp = fopen(pathToAgenda, "r");
+    fscanf(fp, "%s", buff);
+    printf("1 : %s\n", buff );
+
+    fgets(buff, 255, (FILE*)fp);
+    printf("2: %s\n", buff );
+
+    fgets(buff, 255, (FILE*)fp);
+    printf("3: %s\n", buff );
     fclose(fp);
 }

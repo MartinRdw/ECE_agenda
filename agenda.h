@@ -21,7 +21,7 @@ void afficherRDV(struct Appointment);
 int horaireCoherents(struct Appointment);
 int comparerCreneauxRDV(struct Appointment, struct Appointment);
 void traiterChoixCreerAgenda();
-
+void traiterChoixOuvrirAgenda();
 
 typedef struct Date
 {
