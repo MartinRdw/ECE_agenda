@@ -174,22 +174,46 @@ void traiterChoixOuvrirAgenda() {
     //display line by line
     while ((read = getline(&line, &len, fp)) != -1) {
 
-        struct Appointment appointment;
-
+        // day
         split = strtok(line, ",");
-        char s[30] = "20/08/1996";
-        appointment.date = convertStringToDate(s);
+        appointments[i].date.day = strtol(split, (char **) NULL, 10);
+        printf("%d ", appointments[i].date.day);
 
+        // month
         split = strtok(NULL, ",");
-        appointment.startSchedule = convertStringToSchedule(split);
+        appointments[i].date.month = strtol(split, (char **) NULL, 10);
+        printf("%d ", appointments[i].date.month);
 
+        // year
         split = strtok(NULL, ",");
-        appointment.endSchedule = convertStringToSchedule(split);
+        appointments[i].date.year = strtol(split, (char **) NULL, 10);
+        printf("%d ", appointments[i].date.year);
 
+        // start hour
         split = strtok(NULL, ",");
-        strcpy(appointment.title, split);
+        appointments[i].startSchedule.hour = strtol(split, (char **) NULL, 10);
+        printf("%d ", appointments[i].startSchedule.hour);
 
-        appointments[i] = appointment;
+        // start minute
+        split = strtok(NULL, ",");
+        appointments[i].startSchedule.minute = strtol(split, (char **) NULL, 10);
+        printf("%d ", appointments[i].startSchedule.minute);
+
+        // end hour
+        split = strtok(NULL, ",");
+        appointments[i].endSchedule.hour = strtol(split, (char **) NULL, 10);
+        printf("%d ", appointments[i].endSchedule.hour);
+
+        // end minute
+        split = strtok(NULL, ",");
+        appointments[i].endSchedule.minute = strtol(split, (char **) NULL, 10);
+        printf("%d ", appointments[i].endSchedule.minute);
+
+        // title
+        split = strtok(NULL, ",");
+        strcpy(appointments[i].title, split);
+        printf("%s", appointments[i].title);
+
         i++;
     }
 
