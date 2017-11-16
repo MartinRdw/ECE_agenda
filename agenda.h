@@ -22,6 +22,8 @@ int horaireCoherents(struct Appointment);
 int comparerCreneauxRDV(struct Appointment, struct Appointment);
 void traiterChoixCreerAgenda();
 void traiterChoixOuvrirAgenda();
+struct Date convertStringToDate(char date[]);
+struct Schedule convertStringToSchedule(char schedule[]);
 
 typedef struct Date
 {
@@ -38,9 +40,9 @@ typedef struct Schedule
 
 typedef struct Appointment
 {
-    int date;
-    int startSchedule;
-    int endSchedule;
+    Date date;
+    Schedule startSchedule;
+    Schedule endSchedule;
     char title[50];
     int remind;
 } Appointment;

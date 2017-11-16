@@ -63,7 +63,7 @@ int dateCorrecte(struct Date date) {
 }
 
 void afficherDate(struct Date date) {
-    printf("%d/%d/%d", date.day, date.month, date.year);
+    printf("%02d/%02d/%02d", date.day, date.month, date.year);
 }
 
 struct Schedule lireHoraire() {
@@ -86,7 +86,7 @@ int horaireCorrect(struct Schedule schedule) {
 }
 
 void afficherHoraire(struct Schedule schedule) {
-    printf("%d:%d", schedule.hour, schedule.minute);
+    printf("%02d:%02d", schedule.hour, schedule.minute);
 }
 
 struct Appointment lireRDV() {
@@ -133,16 +133,14 @@ void traiterChoixCreerAgenda() {
 
 void traiterChoixOuvrirAgenda() {
 
-    DIR*d;
+    DIR *d;
     struct dirent *dir;
     d = opendir("./created_agenda");
-    if (d)
-    {
+    if (d) {
 
         printf("Liste des agendas : ");
 
-        while ((dir = readdir(d)) != NULL)
-        {
+        while ((dir = readdir(d)) != NULL) {
             printf("%s\n", dir->d_name);
         }
         printf("\n");
@@ -158,8 +156,8 @@ void traiterChoixOuvrirAgenda() {
 
     // prints agenda content
     FILE *fp;
-    char * line = NULL;
-    char * split;;
+    char *line = NULL;
+    char *split;
     size_t len = 0;
     ssize_t read;
 
@@ -171,15 +169,63 @@ void traiterChoixOuvrirAgenda() {
     strcat(pathToAgenda, ".txt");
     fp = fopen(pathToAgenda, "r");
 
+    struct Appointment appointments[NBMAX_RDV];
+    int i = 0;
     //display line by line
     while ((read = getline(&line, &len, fp)) != -1) {
-        split = strtok (line,",");
-        while (split != NULL)
-        {
-            printf ("%s\n",split);
-            split = strtok (NULL, ",");
-        }
+
+        struct Appointment appointment;
+
+        split = strtok(line, ",");
+        char s[30] = "20/08/1996";
+        appointment.date = convertStringToDate(s);
+
+        split = strtok(NULL, ",");
+        appointment.startSchedule = convertStringToSchedule(split);
+
+        split = strtok(NULL, ",");
+        appointment.endSchedule = convertStringToSchedule(split);
+
+        split = strtok(NULL, ",");
+        strcpy(appointment.title, split);
+
+        appointments[i] = appointment;
+        i++;
     }
 
     fclose(fp);
 }
+
+struct Date convertStringToDate(char dateString[]) {
+
+    struct Date date;
+
+    char *split;
+    split = strtok(dateString, "/");
+    date.day = strtol(split, (char **) NULL, 10);
+
+    split = strtok(NULL, "/");
+    date.month = strtol(split, (char **) NULL, 10);
+
+    split = strtok(NULL, "/");
+    date.year = strtol(split, (char **) NULL, 10);
+
+    printf("%02d/%02d/%02d", date.day, date.month, date.year);
+
+    return date;
+}
+
+struct Schedule convertStringToSchedule(char scheduleString[]) {
+
+    struct Schedule schedule;
+
+    char *split;
+    split = strtok(scheduleString, ":");
+    schedule.hour = strtol(split, (char **) NULL, 10);
+
+    split = strtok(NULL, ":");
+    schedule.minute = strtol(split, (char **) NULL, 10);
+    printf("%02d:%02d", schedule.hour, schedule.minute);
+    return schedule;
+}
+
