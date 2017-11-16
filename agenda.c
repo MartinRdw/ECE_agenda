@@ -177,79 +177,41 @@ void traiterChoixOuvrirAgenda() {
         // day
         split = strtok(line, ",");
         appointments[i].date.day = strtol(split, (char **) NULL, 10);
-        printf("%d ", appointments[i].date.day);
 
         // month
         split = strtok(NULL, ",");
         appointments[i].date.month = strtol(split, (char **) NULL, 10);
-        printf("%d ", appointments[i].date.month);
 
         // year
         split = strtok(NULL, ",");
         appointments[i].date.year = strtol(split, (char **) NULL, 10);
-        printf("%d ", appointments[i].date.year);
 
         // start hour
         split = strtok(NULL, ",");
         appointments[i].startSchedule.hour = strtol(split, (char **) NULL, 10);
-        printf("%d ", appointments[i].startSchedule.hour);
 
         // start minute
         split = strtok(NULL, ",");
         appointments[i].startSchedule.minute = strtol(split, (char **) NULL, 10);
-        printf("%d ", appointments[i].startSchedule.minute);
 
         // end hour
         split = strtok(NULL, ",");
         appointments[i].endSchedule.hour = strtol(split, (char **) NULL, 10);
-        printf("%d ", appointments[i].endSchedule.hour);
 
         // end minute
         split = strtok(NULL, ",");
         appointments[i].endSchedule.minute = strtol(split, (char **) NULL, 10);
-        printf("%d ", appointments[i].endSchedule.minute);
 
         // title
         split = strtok(NULL, ",");
         strcpy(appointments[i].title, split);
-        printf("%s", appointments[i].title);
+
+        printf("%sLe %02d/%02d/%04d de %02d:%02d à %02d:%02d\n\n", appointments[i].title, appointments[i].date.day, appointments[i].date.month,
+               appointments[i].date.year, appointments[i].startSchedule.hour, appointments[i].startSchedule.minute,
+               appointments[i].endSchedule.hour, appointments[i].endSchedule.minute);
 
         i++;
     }
 
     fclose(fp);
 }
-
-struct Date convertStringToDate(char dateString[]) {
-
-    struct Date date;
-
-    char *split;
-    split = strtok(dateString, "/");
-    date.day = strtol(split, (char **) NULL, 10);
-
-    split = strtok(NULL, "/");
-    date.month = strtol(split, (char **) NULL, 10);
-
-    split = strtok(NULL, "/");
-    date.year = strtol(split, (char **) NULL, 10);
-
-    printf("%02d/%02d/%02d", date.day, date.month, date.year);
-
-    return date;
-}
-
-struct Schedule convertStringToSchedule(char scheduleString[]) {
-
-    struct Schedule schedule;
-
-    char *split;
-    split = strtok(scheduleString, ":");
-    schedule.hour = strtol(split, (char **) NULL, 10);
-
-    split = strtok(NULL, ":");
-    schedule.minute = strtol(split, (char **) NULL, 10);
-    printf("%02d:%02d", schedule.hour, schedule.minute);
-    return schedule;
-}
-
