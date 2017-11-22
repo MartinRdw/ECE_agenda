@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include  <string.h>
 #include "agenda.h"
 
 void afficherMenu1() {
@@ -24,7 +25,7 @@ void afficherMenu2() {
 int lireChoix(int minVal, int maxVal) {
     int choiceMenu = -1;
     do {
-        printf("Votre choix (entre %d et %d) : ", minVal, maxVal);
+        printf("Choisissez une option (entre %d et %d) : ", minVal, maxVal);
         scanf("%d", &choiceMenu);
     } while (choiceMenu < minVal || choiceMenu > maxVal);
     printf("\n");
@@ -89,13 +90,22 @@ void afficherHoraire(struct Schedule schedule) {
     printf("%02d:%02d", schedule.hour, schedule.minute);
 }
 
-struct Appointment lireRDV() {
-    struct Appointment appointment;
-    return appointment;
+char *lireRDV() {
+
+    char rdvName[LGMAX_LIBEL];
+    printf("Libelle du rendez-vous : ");
+    scanf("%s", rdvName);
+    return rdvName;
 }
 
 void afficherRDV(struct Appointment appointment) {
 
+    printf("\nRDV %02d/%02d/%04d %02d:%02d - %02d:%02d\n\t%s\n\n", appointment.date.day,
+           appointment.date.month,
+           appointment.date.year, appointment.startSchedule.hour,
+           appointment.startSchedule.minute,
+           appointment.endSchedule.hour, appointment.endSchedule.minute,
+           appointment.title);
 }
 
 int horaireCoherents(struct Appointment appointment) {
@@ -131,7 +141,7 @@ void traiterChoixCreerAgenda() {
     fclose(fp);
 }
 
-void traiterChoixOuvrirAgenda() {
+char *lireNomFichierAgenda() {
 
     DIR *d;
     struct dirent *dir;
@@ -140,78 +150,188 @@ void traiterChoixOuvrirAgenda() {
 
         printf("Liste des agendas : ");
 
+        int i = 0;
         while ((dir = readdir(d)) != NULL) {
-            printf("%s\n", dir->d_name);
+            if (i > 1)
+                printf("\n%s", dir->d_name);
+            i++;
         }
-        printf("\n");
+        printf("\n\n");
 
         closedir(d);
     }
 
-    // asking for agenda name
     char agendaName[256];
     printf("Nom du fichier agenda : ");
     scanf("%s", agendaName);
     printf("\n");
 
-    // prints agenda content
+    return agendaName;
+}
+
+void traiterChoixOuvrirAgenda() {
+
+    struct Agenda agenda;
+
+    char *agendaName = lireNomFichierAgenda();
+
+    // trying to open agenda with agendaName
     FILE *fp;
     char *line = NULL;
     char *split;
     size_t len = 0;
     ssize_t read;
-
-    char buff[255];
-
     char pathToAgenda[256];
     strcpy(pathToAgenda, "./created_agenda/");
     strcat(pathToAgenda, agendaName);
     strcat(pathToAgenda, ".txt");
     fp = fopen(pathToAgenda, "r");
 
-    struct Appointment appointments[NBMAX_RDV];
-    int i = 0;
-    //display line by line
-    while ((read = getline(&line, &len, fp)) != -1) {
+    // if file doesnt exist
+    if (fp == NULL) {
 
-        // day
-        split = strtok(line, ",");
-        appointments[i].date.day = strtol(split, (char **) NULL, 10);
+        printf("L'agenda n'existe pas.\n");
 
-        // month
-        split = strtok(NULL, ",");
-        appointments[i].date.month = strtol(split, (char **) NULL, 10);
+    } else {
 
-        // year
-        split = strtok(NULL, ",");
-        appointments[i].date.year = strtol(split, (char **) NULL, 10);
+        int i = 0;
+        while ((read = getline(&line, &len, fp)) != -1) {
 
-        // start hour
-        split = strtok(NULL, ",");
-        appointments[i].startSchedule.hour = strtol(split, (char **) NULL, 10);
+            // day
+            split = strtok(line, ",");
+            agenda.appointments[i].date.day = strtol(split, (char **) NULL, 10);
 
-        // start minute
-        split = strtok(NULL, ",");
-        appointments[i].startSchedule.minute = strtol(split, (char **) NULL, 10);
+            // month
+            split = strtok(NULL, ",");
+            agenda.appointments[i].date.month = strtol(split, (char **) NULL, 10);
 
-        // end hour
-        split = strtok(NULL, ",");
-        appointments[i].endSchedule.hour = strtol(split, (char **) NULL, 10);
+            // year
+            split = strtok(NULL, ",");
+            agenda.appointments[i].date.year = strtol(split, (char **) NULL, 10);
 
-        // end minute
-        split = strtok(NULL, ",");
-        appointments[i].endSchedule.minute = strtol(split, (char **) NULL, 10);
+            // start hour
+            split = strtok(NULL, ",");
+            agenda.appointments[i].startSchedule.hour = strtol(split, (char **) NULL, 10);
 
-        // title
-        split = strtok(NULL, ",");
-        strcpy(appointments[i].title, split);
+            // start minute
+            split = strtok(NULL, ",");
+            agenda.appointments[i].startSchedule.minute = strtol(split, (char **) NULL, 10);
 
-        printf("RDV %02d/%02d/%04d %02d:%02d - %02d:%02d\n\t%s\n", appointments[i].date.day, appointments[i].date.month,
-               appointments[i].date.year, appointments[i].startSchedule.hour, appointments[i].startSchedule.minute,
-               appointments[i].endSchedule.hour, appointments[i].endSchedule.minute, appointments[i].title);
+            // end hour
+            split = strtok(NULL, ",");
+            agenda.appointments[i].endSchedule.hour = strtol(split, (char **) NULL, 10);
 
-        i++;
+            // end minute
+            split = strtok(NULL, ",");
+            agenda.appointments[i].endSchedule.minute = strtol(split, (char **) NULL, 10);
+
+            // title
+            split = strtok(NULL, ",");
+            strcpy(agenda.appointments[i].title, strtok(split, "\n"));
+
+            i++;
+        }
+
+        agenda.rdvAmount = i;
+        strcpy(agenda.title, pathToAgenda);
+
+        printf("Agenda charge\n");
+
+        gererAgenda(&agenda);
     }
 
     fclose(fp);
+}
+
+void gererAgenda(struct Agenda *agenda) {
+
+    int choix = -1;
+    while (choix != 7) {
+
+        afficherMenu2();
+        choix = lireChoix(1, 7);
+        traiterChoixMenu2(choix, agenda);
+    }
+
+    // todo : enregistrer par date et heure croissantes
+
+    FILE *f = fopen(agenda->title, "w");
+    for (int i = 0; i < agenda->rdvAmount; i++) {
+        fprintf(f, "%02d,%02d,%04d,%02d,%02d,%02d,%02d,%s\n", agenda->appointments[i].date.day,
+                agenda->appointments[i].date.month,
+                agenda->appointments[i].date.year, agenda->appointments[i].startSchedule.hour,
+                agenda->appointments[i].startSchedule.minute, agenda->appointments[i].endSchedule.hour,
+                agenda->appointments[i].endSchedule.minute, agenda->appointments[i].title);
+    }
+    fclose(f);
+}
+
+void traiterChoixMenu1(int choix) {
+
+    switch (choix) {
+
+        case 1:
+
+            traiterChoixCreerAgenda();
+            break;
+        case 2:
+
+            traiterChoixOuvrirAgenda();
+            break;
+        case 3:
+
+            printf("Application fermee.");
+    }
+}
+
+void traiterChoixMenu2(int choix, struct Agenda *agenda) {
+
+
+    switch (choix) {
+
+        case 1:
+
+            // print libelles
+            for (int i = 0; i < agenda->rdvAmount; i++) {
+                printf("RDV : %s\n", agenda->appointments[i].title);
+            }
+
+            char rdvName[LGMAX_LIBEL];
+            strcat(rdvName, lireRDV());
+
+            for (int i = 0; i < agenda->rdvAmount; i++) {
+
+                if (strcmp(agenda->appointments[i].title, rdvName) == 0) {
+                    afficherRDV(agenda->appointments[i]);
+                }
+            }
+
+            break;
+        case 2:
+
+            for (int i = 0; i < agenda->rdvAmount; i++) {
+                afficherRDV(agenda->appointments[i]);
+            }
+            break;
+        case 3:
+
+            printf("TODO : Modifier un RDV");
+            // todo : modifier un rdv
+            break;
+        case 4:
+
+            printf("TODO : Ajouter un RDV");
+            // todo : ajouter un rdv
+            break;
+        case 5:
+
+            printf("TODO : Supprimer un RDV");
+            // todo : supprimer un rdv
+            break;
+        case 6:
+
+            printf("TODO : Supprimer tous les RDV");
+            // todo : supprimer tous les rdv
+            break;
+    }
 }
