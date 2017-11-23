@@ -62,6 +62,8 @@ void traiterChoixCreerAgenda();
 
 char *lireNomFichierAgenda();
 
+char *lireLibelleRDV();
+
 void traiterChoixOuvrirAgenda();
 
 void gererAgenda(struct Agenda *);

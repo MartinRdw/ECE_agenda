@@ -184,6 +184,16 @@ char *lireNomFichierAgenda() {
     return agendaName;
 }
 
+char *lireLibelleRDV() {
+
+    char rdvName[256];
+    printf("Libelle du rendez-vous : ");
+    scanf("%s", rdvName);
+    printf("\n");
+
+    return rdvName;
+}
+
 void traiterChoixOuvrirAgenda() {
 
     struct Agenda agenda;
@@ -268,8 +278,6 @@ void gererAgenda(struct Agenda *agenda) {
         traiterChoixMenu2(choix, agenda);
     }
 
-    printf('test');
-
     // todo : enregistrer par date et heure croissantes
 
     traiterChoixSauvegarderEtFermer(agenda);
@@ -324,7 +332,7 @@ void traiterChoixMenu2(int choix, struct Agenda *agenda) {
             }
 
             char rdvName[LGMAX_LIBEL];
-            strcat(rdvName, lireNomFichierAgenda());
+            strcat(rdvName, lireLibelleRDV());
 
             for (int i = 0; i < agenda->rdvAmount; i++) {
 
