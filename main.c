@@ -2,6 +2,10 @@
 
 int main() {
 
+    if (2) {
+        printf("");
+    }
+
     int choix;
 
     afficherMenu1();

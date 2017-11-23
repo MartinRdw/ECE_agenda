@@ -40,8 +40,7 @@ struct Date lireDate() {
     int month;
     int year;
 
-    printf("\nEntrez une date au format JJ/MM/AAAA : ");
-    scanf("%d/%d/%d", &day, &month, &year);
+    scanf("%02d/%02d/%04d", &day, &month, &year);
 
     date.day = day;
     date.month = month;
@@ -65,7 +64,7 @@ int dateCorrecte(struct Date date) {
 }
 
 void afficherDate(struct Date date) {
-    printf("%02d/%02d/%02d", date.day, date.month, date.year);
+    printf("%02d/%02d/%04d", date.day, date.month, date.year);
 }
 
 struct Schedule lireHoraire() {
@@ -74,7 +73,6 @@ struct Schedule lireHoraire() {
     int hour;
     int minute;
 
-    printf("\nEntrez un horaire au format HH:MM : ");
     scanf("%d:%d", &hour, &minute);
 
     schedule.hour = hour;
@@ -91,12 +89,27 @@ void afficherHoraire(struct Schedule schedule) {
     printf("%02d:%02d", schedule.hour, schedule.minute);
 }
 
-char *lireRDV() {
+struct Appointment lireRDV() {
 
-    char rdvName[LGMAX_LIBEL];
-    printf("Libelle du rendez-vous : ");
-    scanf("%s", rdvName);
-    return rdvName;
+    struct Appointment appointment;
+
+    // titre
+    printf("\nPlanification d'un nouveau rendez-vous\nTitre : ");
+    scanf("%s", appointment.title);
+
+    // date
+    printf("\nDate (format JJ/MM/AAAA) : ");
+    appointment.date = lireDate();
+
+    // horaire debut
+    printf("\nHoraire de debut (format HH:MM) : ");
+    appointment.startSchedule = lireHoraire();
+
+    // horaire fin
+    printf("\nHoraire de fin (format HH:MM) : ");
+    appointment.endSchedule = lireHoraire();
+
+    return appointment;
 }
 
 void afficherRDV(struct Appointment appointment) {
@@ -168,6 +181,16 @@ char *lireNomFichierAgenda() {
     printf("\n");
 
     return agendaName;
+}
+
+char *lireLibelleRDV() {
+
+    char rdvName[256];
+    printf("Libelle du rendez-vous : ");
+    scanf("%s", rdvName);
+    printf("\n");
+
+    return rdvName;
 }
 
 void traiterChoixOuvrirAgenda() {
@@ -253,6 +276,7 @@ void gererAgenda(struct Agenda *agenda) {
         choix = lireChoix(1, 7);
         traiterChoixMenu2(choix, agenda);
     }
+
     // todo : enregistrer par date et heure croissantes
 
     traiterChoixSauvegarderEtFermer(agenda);
@@ -276,6 +300,14 @@ void traiterChoixSauvegarderEtFermer(struct Agenda *agenda) {
                 agenda->appointments[i].title);
     }
     fclose(f);
+}
+
+void afficherTousLesAppointments(struct Agenda *agenda) {
+
+    printf("Liste des rendez-vous\n");
+    for (int i = 0; i < agenda->rdvAmount; i++) {
+        printf("%d - %s\n", i + 1, agenda->appointments[i].title);
+    }
 }
 
 void afficherTousLesAppointments(struct Agenda *agenda) {
@@ -365,13 +397,7 @@ void traiterChoixMenu2(int choix, struct Agenda *agenda) {
             afficherTousLesAppointments(agenda);
 
             char rdvName[LGMAX_LIBEL];
-            strcat(rdvName, lireRDV());
-
-            for (int i = 0; i < agenda->rdvAmount; i++) {
-                if (strcmp(agenda->appointments[i].title, rdvName) == 0) {
-                    afficherRDV(agenda->appointments[i]);
-                }
-            }
+            afficherRDV(agenda->appointments[lireIdRDV(agenda->rdvAmount) - 1]);
 
             break;
         case 2:
@@ -387,18 +413,79 @@ void traiterChoixMenu2(int choix, struct Agenda *agenda) {
             break;
         case 4:
 
-            printf("TODO : Ajouter un RDV");
-            // todo : ajouter un rdv
+            traiterChoixAjouterRDV(agenda);
             break;
         case 5:
 
-            printf("TODO : Supprimer un RDV");
-            // todo : supprimer un rdv
+            traiterChoixSupprimerRDV(agenda);
             break;
         case 6:
 
             printf("TODO : Supprimer tous les RDV");
             // todo : supprimer tous les rdv
             break;
+    }
+}
+
+void traiterChoixAjouterRDV(struct Agenda *agenda) {
+
+    agenda->appointments[agenda->rdvAmount] = lireRDV();
+    agenda->rdvAmount++;
+    printf("RDV sauvegarde\n\nTEST ENREGISTREMENT RDV : \n\n");
+    afficherRDV(agenda->appointments[agenda->rdvAmount]);
+}
+
+void traiterChoixSupprimerRDV(struct Agenda *agenda) {
+
+    afficherTousLesAppointments(agenda);
+
+    printf("Identifiant du rendez-vous a supprimer : ");
+
+    int rdvToDelete = lireIdRDV(agenda->rdvAmount);
+
+    supprimerRDV(rdvToDelete - 1, agenda);
+}
+
+int supprimerRDV(int rdvId, struct Agenda *agenda) {
+
+    // si l'id du rendez vous est compris dans le tableau
+    if (agenda->rdvAmount > rdvId) {
+
+        strcpy(agenda->appointments[rdvId].title, "");
+        agenda->appointments[rdvId].date.day = 0;
+        agenda->appointments[rdvId].date.month = 0;
+        agenda->appointments[rdvId].date.year = 0;
+        agenda->appointments[rdvId].startSchedule.hour = 0;
+        agenda->appointments[rdvId].startSchedule.minute = 0;
+        agenda->appointments[rdvId].endSchedule.hour = 0;
+        agenda->appointments[rdvId].endSchedule.minute = 0;
+        agenda->rdvAmount--;
+
+        // decalage de tous les rdv vers la gauche
+        reorganiserRDV(agenda, rdvId);
+
+        return 1;
+    } else
+        return 0;
+}
+
+int lireIdRDV(int rdvIdMax) {
+
+    int rdvId = -1;
+    printf("Numero du rendez-vous : ");
+    scanf("%d", &rdvId);
+    while (rdvId < 1 || rdvId > rdvIdMax) {
+
+        printf("\nIdentifiant invalide, entrez un nombre compris entre 1 et %d : ", rdvIdMax);
+        scanf("%d", &rdvId);
+    }
+    return rdvId;
+}
+
+void reorganiserRDV(struct Agenda *agenda, int rdvId) {
+
+    for (int i = rdvId + 1; i < agenda->rdvAmount; i++) {
+
+        agenda->appointments[i - 1] = agenda->appointments[i];
     }
 }

@@ -50,7 +50,7 @@ int horaireCorrect(struct Schedule);
 
 void afficherHoraire(struct Schedule);
 
-char *lireRDV();
+struct Appointment lireRDV();
 
 void afficherRDV(struct Appointment);
 
@@ -62,13 +62,15 @@ void traiterChoixCreerAgenda();
 
 char *lireNomFichierAgenda();
 
+char *lireLibelleRDV();
+
 void traiterChoixOuvrirAgenda();
 
 void gererAgenda(struct Agenda *);
 
-void traiterChoixSauvegarderEtFermer (struct Agenda *);
+void traiterChoixSauvegarderEtFermer(struct Agenda *);
 
-void afficherTousLesAppointments (struct Agenda *);
+void afficherTousLesAppointments(struct Agenda *);
 
 int reorganiserDeuxDates (struct Agenda *, int, int);
 
@@ -77,3 +79,11 @@ void triABulles (struct Agenda *);
 void traiterChoixMenu1(int);
 
 void traiterChoixMenu2(int, struct Agenda *);
+
+void traiterChoixAjouterRDV(struct Agenda *);
+
+void traiterChoixSupprimerRDV(struct Agenda *);
+
+int lireIdRDV(int rdvIdMax);
+
+void reorganiserRDV(struct Agenda *agenda, int rdvId);
