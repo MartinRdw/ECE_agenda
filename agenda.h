@@ -79,3 +79,7 @@ void traiterChoixMenu2(int, struct Agenda *);
 void traiterChoixAjouterRDV(struct Agenda *);
 
 void traiterChoixSupprimerRDV(struct Agenda *);
+
+int lireIdRDV(int rdvIdMax);
+
+void reorganiserRDV(struct Agenda *agenda, int rdvId);
