@@ -70,8 +70,12 @@ void gererAgenda(struct Agenda *);
 
 void traiterChoixSauvegarderEtFermer(struct Agenda *);
 
+void afficherTousLesAppointments(struct Agenda *);
+
 void traiterChoixMenu1(int);
 
 void traiterChoixMenu2(int, struct Agenda *);
 
 void traiterChoixAjouterRDV(struct Agenda *);
+
+void traiterChoixSupprimerRDV(struct Agenda *);

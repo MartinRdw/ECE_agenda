@@ -301,6 +301,12 @@ void traiterChoixSauvegarderEtFermer(struct Agenda *agenda) {
     fclose(f);
 }
 
+void afficherTousLesAppointments(struct Agenda *agenda) {
+    for (int i = 0; i < agenda->rdvAmount; i++) {
+        printf("RDV : %s\n", agenda->appointments[i].title);
+    }
+}
+
 void traiterChoixMenu1(int choix) {
 
     switch (choix) {
@@ -326,10 +332,7 @@ void traiterChoixMenu2(int choix, struct Agenda *agenda) {
 
         case 1:
 
-            // print libelles
-            for (int i = 0; i < agenda->rdvAmount; i++) {
-                printf("RDV : %s\n", agenda->appointments[i].title);
-            }
+            afficherTousLesAppointments(agenda);
 
             char rdvName[LGMAX_LIBEL];
             strcat(rdvName, lireLibelleRDV());
@@ -359,8 +362,7 @@ void traiterChoixMenu2(int choix, struct Agenda *agenda) {
             break;
         case 5:
 
-            printf("TODO : Supprimer un RDV");
-            // todo : supprimer un rdv
+            traiterChoixSupprimerRDV(agenda);
             break;
         case 6:
 
@@ -376,4 +378,13 @@ void traiterChoixAjouterRDV(struct Agenda *agenda) {
     agenda->rdvAmount++;
     printf("RDV sauvegarde\n\nTEST ENREGISTREMENT RDV : \n\n");
     afficherRDV(agenda->appointments[agenda->rdvAmount]);
+}
+
+void traiterChoixSupprimerRDV(struct Agenda *agenda) {
+
+    int rdvToDelete = -1;
+    printf("Identifiant du rendez-vous a supprimer : ");
+    scanf("%d", &rdvToDelete);
+
+    //supprimerRDV();
 }
