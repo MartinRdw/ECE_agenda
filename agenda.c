@@ -276,21 +276,19 @@ void gererAgenda(struct Agenda *agenda) {
 
 }
 
-void traiterChoixSauvegarderEtFermer (struct Agenda *agenda) {
-    int secondsAppoint = 0;
+void traiterChoixSauvegarderEtFermer(struct Agenda *agenda) {
 
     FILE *f = fopen(agenda->title, "w");
     for (int i = 0; i < agenda->rdvAmount; i++) {
-        seconds = ((agenda->appointments[i].date.year - 1970) *  ) + () + () + ( ) +
-                  fprintf(f, "%02d,%02d,%04d,%02d,%02d,%02d,%02d,%s\n",
-                          agenda->appointments[i].date.day,
-                          agenda->appointments[i].date.month,
-                          agenda->appointments[i].date.year,
-                          agenda->appointments[i].startSchedule.hour,
-                          agenda->appointments[i].startSchedule.minute,
-                          agenda->appointments[i].endSchedule.hour,
-                          agenda->appointments[i].endSchedule.minute,
-                          agenda->appointments[i].title);
+        fprintf(f, "%02d,%02d,%04d,%02d,%02d,%02d,%02d,%s\n",
+                agenda->appointments[i].date.day,
+                agenda->appointments[i].date.month,
+                agenda->appointments[i].date.year,
+                agenda->appointments[i].startSchedule.hour,
+                agenda->appointments[i].startSchedule.minute,
+                agenda->appointments[i].endSchedule.hour,
+                agenda->appointments[i].endSchedule.minute,
+                agenda->appointments[i].title);
     }
     fclose(f);
 }
