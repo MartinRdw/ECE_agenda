@@ -310,13 +310,6 @@ void afficherTousLesAppointments(struct Agenda *agenda) {
     }
 }
 
-void afficherTousLesAppointments(struct Agenda *agenda) {
-    for (int i = 0; i < agenda->rdvAmount; i++) {
-        printf("RDV : %s\n", agenda->appointments[i].title);
-    }
-}
-
-
 int reorganiserDeuxDates(struct Agenda *agenda, int indiceEvent1, int indiceEvent2) {
 
     //return 1 si inversion des dates, sinon 0
