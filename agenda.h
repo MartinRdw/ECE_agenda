@@ -50,7 +50,7 @@ int horaireCorrect(struct Schedule);
 
 void afficherHoraire(struct Schedule);
 
-char *lireRDV();
+struct Appointment lireRDV();
 
 void afficherRDV(struct Appointment);
 
@@ -69,3 +69,5 @@ void gererAgenda(struct Agenda *);
 void traiterChoixMenu1(int);
 
 void traiterChoixMenu2(int, struct Agenda *);
+
+void traiterChoixAjouterRDV(struct Agenda *);
