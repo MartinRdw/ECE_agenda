@@ -253,32 +253,87 @@ void gererAgenda(struct Agenda *agenda) {
         choix = lireChoix(1, 7);
         traiterChoixMenu2(choix, agenda);
     }
-
-    printf('test');
-
     // todo : enregistrer par date et heure croissantes
 
     traiterChoixSauvegarderEtFermer(agenda);
 
 }
 
-void traiterChoixSauvegarderEtFermer (struct Agenda *agenda) {
-    int secondsAppoint = 0;
+void traiterChoixSauvegarderEtFermer(struct Agenda *agenda) {
+
+    triABulles(agenda);
 
     FILE *f = fopen(agenda->title, "w");
     for (int i = 0; i < agenda->rdvAmount; i++) {
-        seconds = ((agenda->appointments[i].date.year - 1970) *  ) + () + () + ( ) +
-                  fprintf(f, "%02d,%02d,%04d,%02d,%02d,%02d,%02d,%s\n",
-                          agenda->appointments[i].date.day,
-                          agenda->appointments[i].date.month,
-                          agenda->appointments[i].date.year,
-                          agenda->appointments[i].startSchedule.hour,
-                          agenda->appointments[i].startSchedule.minute,
-                          agenda->appointments[i].endSchedule.hour,
-                          agenda->appointments[i].endSchedule.minute,
-                          agenda->appointments[i].title);
+        fprintf(f, "%02d,%02d,%04d,%02d,%02d,%02d,%02d,%s\n",
+                agenda->appointments[i].date.day,
+                agenda->appointments[i].date.month,
+                agenda->appointments[i].date.year,
+                agenda->appointments[i].startSchedule.hour,
+                agenda->appointments[i].startSchedule.minute,
+                agenda->appointments[i].endSchedule.hour,
+                agenda->appointments[i].endSchedule.minute,
+                agenda->appointments[i].title);
     }
     fclose(f);
+}
+
+void afficherTousLesAppointments(struct Agenda *agenda) {
+    for (int i = 0; i < agenda->rdvAmount; i++) {
+        printf("RDV : %s\n", agenda->appointments[i].title);
+    }
+}
+
+
+int reorganiserDeuxDates(struct Agenda *agenda, int indiceEvent1, int indiceEvent2) {
+
+    //return 1 si inversion des dates, sinon 0
+
+    struct Appointment appointment1 = agenda->appointments[indiceEvent1];
+    struct Appointment appointment2 = agenda->appointments[indiceEvent2];
+
+    int returnCode = 0;
+
+    if (appointment1.date.year > appointment2.date.year) {
+    } else if (appointment1.date.year < appointment2.date.year) {
+        returnCode = 1;
+    } else {
+        if (appointment1.date.month > appointment2.date.month) {
+        } else if (appointment1.date.month < appointment2.date.month) {
+            returnCode = 1;
+        } else {
+            if (appointment1.date.day > appointment2.date.day) {
+            } else if (appointment1.date.day < appointment2.date.day) {
+                returnCode = 1;
+            } else {
+                if (appointment1.startSchedule.hour > appointment2.startSchedule.hour) {
+                } else if (appointment1.startSchedule.hour < appointment2.startSchedule.hour) {
+                    returnCode = 1;
+                } else {
+                    if (appointment1.startSchedule.minute > appointment2.startSchedule.minute) {
+                    } else {
+                        returnCode = 1;
+                    }
+                }
+            }
+        }
+    }
+
+    if (returnCode == 1) {
+        agenda->appointments[indiceEvent1] = appointment2;
+        agenda->appointments[indiceEvent2] = appointment1;
+    }
+
+    return returnCode;
+}
+
+void triABulles (struct Agenda *agenda) {
+    for (int i = 0; i < agenda->rdvAmount; i++) {
+        if (reorganiserDeuxDates(agenda, i, i+1)) {
+            i = 0;
+            reorganiserDeuxDates(agenda, i, i+1);
+        }
+    }
 }
 
 void traiterChoixMenu1(int choix) {
@@ -307,15 +362,12 @@ void traiterChoixMenu2(int choix, struct Agenda *agenda) {
         case 1:
 
             // print libelles
-            for (int i = 0; i < agenda->rdvAmount; i++) {
-                printf("RDV : %s\n", agenda->appointments[i].title);
-            }
+            afficherTousLesAppointments(agenda);
 
             char rdvName[LGMAX_LIBEL];
             strcat(rdvName, lireRDV());
 
             for (int i = 0; i < agenda->rdvAmount; i++) {
-
                 if (strcmp(agenda->appointments[i].title, rdvName) == 0) {
                     afficherRDV(agenda->appointments[i]);
                 }

@@ -66,7 +66,13 @@ void traiterChoixOuvrirAgenda();
 
 void gererAgenda(struct Agenda *);
 
-void traiterChoixSauvegarderEtFermer (struct Agenda);
+void traiterChoixSauvegarderEtFermer (struct Agenda *);
+
+void afficherTousLesAppointments (struct Agenda *);
+
+int reorganiserDeuxDates (struct Agenda *, int, int);
+
+void triABulles (struct Agenda *);
 
 void traiterChoixMenu1(int);
 
