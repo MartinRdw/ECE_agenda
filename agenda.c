@@ -350,11 +350,11 @@ int reorganiserDeuxDates(struct Agenda *agenda, int indiceEvent1, int indiceEven
     return returnCode;
 }
 
-void triABulles(struct Agenda *agenda) {
-    for (int i = 0; i < agenda->rdvAmount; i++) {
-        if (reorganiserDeuxDates(agenda, i, i + 1)) {
+void triABulles (struct Agenda *agenda) {
+    for (int i = 0; i < agenda->rdvAmount - 1 ; i++) {
+        if (reorganiserDeuxDates(agenda, i+1, i)) {
             i = 0;
-            reorganiserDeuxDates(agenda, i, i + 1);
+            reorganiserDeuxDates(agenda, i+1, i);
         }
     }
 }
