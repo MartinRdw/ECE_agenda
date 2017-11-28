@@ -72,9 +72,9 @@ void traiterChoixSauvegarderEtFermer(struct Agenda *);
 
 void afficherTousLesAppointments(struct Agenda *);
 
-int reorganiserDeuxDates (struct Agenda *, int, int);
+int reorganiserDeuxDates(struct Agenda *, int, int);
 
-void triABulles (struct Agenda *);
+void triABulles(struct Agenda *);
 
 void traiterChoixMenu1(int);
 
@@ -84,6 +84,10 @@ void traiterChoixAjouterRDV(struct Agenda *);
 
 void traiterChoixSupprimerRDV(struct Agenda *);
 
-int lireIdRDV(int rdvIdMax);
+int lireIdRDV(int);
 
-void reorganiserRDV(struct Agenda *agenda, int rdvId);
+void reorganiserRDV(struct Agenda *, int);
+
+void traiterChoixSupprimerTousLesRDV(struct Agenda *);
+
+void traiterChoixModifierUnRdv(struct Agenda *);

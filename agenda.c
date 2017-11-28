@@ -277,8 +277,6 @@ void gererAgenda(struct Agenda *agenda) {
         traiterChoixMenu2(choix, agenda);
     }
 
-    // todo : enregistrer par date et heure croissantes
-
     traiterChoixSauvegarderEtFermer(agenda);
 
 }
@@ -352,11 +350,11 @@ int reorganiserDeuxDates(struct Agenda *agenda, int indiceEvent1, int indiceEven
     return returnCode;
 }
 
-void triABulles (struct Agenda *agenda) {
+void triABulles(struct Agenda *agenda) {
     for (int i = 0; i < agenda->rdvAmount; i++) {
-        if (reorganiserDeuxDates(agenda, i, i+1)) {
+        if (reorganiserDeuxDates(agenda, i, i + 1)) {
             i = 0;
-            reorganiserDeuxDates(agenda, i, i+1);
+            reorganiserDeuxDates(agenda, i, i + 1);
         }
     }
 }
@@ -401,8 +399,7 @@ void traiterChoixMenu2(int choix, struct Agenda *agenda) {
             break;
         case 3:
 
-            printf("TODO : Modifier un RDV");
-            // todo : modifier un rdv
+            traiterChoixModifierUnRdv(agenda);
             break;
         case 4:
 
@@ -414,8 +411,7 @@ void traiterChoixMenu2(int choix, struct Agenda *agenda) {
             break;
         case 6:
 
-            printf("TODO : Supprimer tous les RDV");
-            // todo : supprimer tous les rdv
+            traiterChoixSupprimerTousLesRDV(agenda);
             break;
     }
 }
@@ -426,6 +422,27 @@ void traiterChoixAjouterRDV(struct Agenda *agenda) {
     agenda->rdvAmount++;
     printf("RDV sauvegarde\n\nTEST ENREGISTREMENT RDV : \n\n");
     afficherRDV(agenda->appointments[agenda->rdvAmount]);
+}
+
+void traiterChoixSupprimerTousLesRDV(struct Agenda *agenda) {
+
+    printf("Etes-vous sûr de vouloir supprimer tous les rendez-vous ? (o/n) : ");
+
+    char confirm[4];
+    scanf("%s", confirm);
+    while (strcmp(confirm, "o") != 0 && strcmp(confirm, "n") != 0) {
+        printf("\nTapez 'o' pour confirmer, 'n' sinon : ");
+        scanf("%s", confirm);
+    }
+
+    if (strcmp(confirm, "o") == 0) {
+
+        int nbRdv = agenda->rdvAmount;
+        for (int i = 0; i < nbRdv; i++) {
+            supprimerRDV(0, agenda);
+        }
+        printf("\nTous les rendez-vous ont été effacés.");
+    }
 }
 
 void traiterChoixSupprimerRDV(struct Agenda *agenda) {
@@ -481,4 +498,9 @@ void reorganiserRDV(struct Agenda *agenda, int rdvId) {
 
         agenda->appointments[i - 1] = agenda->appointments[i];
     }
+}
+
+void traiterChoixModifierUnRdv(struct Agenda *agenda) {
+
+
 }
