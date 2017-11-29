@@ -186,7 +186,6 @@ char *lireNomFichierAgenda() {
 char *lireLibelleRDV() {
 
     char rdvName[256];
-    printf("Libelle du rendez-vous : ");
     scanf("%s", rdvName);
     printf("\n");
 
@@ -502,5 +501,49 @@ void reorganiserRDV(struct Agenda *agenda, int rdvId) {
 
 void traiterChoixModifierUnRdv(struct Agenda *agenda) {
 
+    afficherTousLesAppointments(agenda);
 
+    printf("\nNuméro du rendez-vous à modifier : ");
+    int idRDVToEdit = lireIdRDV(agenda->rdvAmount) - 1;
+
+    printf("\nModification du rendez-vous '%s' :\n1 - Modifier le libellé\n2 - Modifier la date\n3 - Modifier l'heure de début\n4 - Modifier l'heure de fin",
+           agenda->appointments[idRDVToEdit].title);
+    int choixEdit = lireChoix(1, 4);
+    switch (choixEdit) {
+
+        // modif libelle
+        case 1:
+
+            printf("\nSaisir le nouveau libellé : ");
+            strcpy(agenda->appointments[idRDVToEdit].title, lireLibelleRDV());
+
+            break;
+
+            // modif date
+        case 2:
+
+            printf("\nSaisir la nouvelle date (JJ/MM/AAAA) : ");
+            agenda->appointments[idRDVToEdit].date = lireDate();
+
+            break;
+
+            // modif h debut
+        case 3:
+
+            printf("\nSaisir le nouvel horaire de début : ");
+            agenda->appointments[idRDVToEdit].startSchedule = lireHoraire();
+
+            break;
+
+            // modif h fin
+        case 4:
+
+            printf("\nSaisir le nouvel horaire de fin : ");
+            agenda->appointments[idRDVToEdit].endSchedule = lireHoraire();
+
+            break;
+    }
+
+    printf("test si le rdv est bien edité\n");
+    afficherRDV(agenda->appointments[idRDVToEdit]);
 }
