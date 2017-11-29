@@ -32,43 +32,11 @@ typedef struct Agenda {
     int rdvAmount;
 } Agenda;
 
-void afficherMenu1();
-
-void afficherMenu2();
-
-int lireChoix(int, int);
-
-struct Date lireDate();
-
-int dateCorrecte(struct Date);
-
-void afficherDate(struct Date);
-
-struct Schedule lireHoraire();
-
-int horaireCorrect(struct Schedule);
-
-void afficherHoraire(struct Schedule);
-
-struct Appointment lireRDV();
-
-void afficherRDV(struct Appointment);
-
-int horaireCoherents(struct Appointment);
-
-int comparerCreneauxRDV(struct Appointment, struct Appointment);
-
-void traiterChoixCreerAgenda();
-
 char *lireNomFichierAgenda();
 
 char *lireLibelleRDV();
 
-void traiterChoixOuvrirAgenda();
-
 void gererAgenda(struct Agenda *);
-
-void traiterChoixSauvegarderEtFermer(struct Agenda *);
 
 void afficherTousLesAppointments(struct Agenda *);
 
@@ -80,14 +48,6 @@ void traiterChoixMenu1(int);
 
 void traiterChoixMenu2(int, struct Agenda *);
 
-void traiterChoixAjouterRDV(struct Agenda *);
-
-void traiterChoixSupprimerRDV(struct Agenda *);
-
 int lireIdRDV(int);
 
 void reorganiserRDV(struct Agenda *, int);
-
-void traiterChoixSupprimerTousLesRDV(struct Agenda *);
-
-void traiterChoixModifierUnRdv(struct Agenda *);

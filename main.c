@@ -1,10 +1,7 @@
 #include "agenda.c"
+#include "menus.c"
 
 int main() {
-
-    if (2) {
-        printf("");
-    }
 
     int choix;
 
