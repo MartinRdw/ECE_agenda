@@ -543,7 +543,4 @@ void traiterChoixModifierUnRdv(struct Agenda *agenda) {
 
             break;
     }
-
-    printf("test si le rdv est bien edité\n");
-    afficherRDV(agenda->appointments[idRDVToEdit]);
 }
