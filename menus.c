@@ -202,14 +202,14 @@ void traiterChoixSauvegarderEtFermer(struct Agenda *agenda) {
 }
 
 void afficherMenu1() {
-    printf("> Menu 1\n\n");
+    printf("\n> Menu 1\n\n");
     printf("1- Creer un nouvel agenda\n");
     printf("2- Ouvrir un agenda existant\n");
     printf("3- Quitter\n\n");
 }
 
 void afficherMenu2() {
-    printf("> Menu 2\n\n");
+    printf("\n> Menu 2\n\n");
     printf("1- Afficher un RDV\n");
     printf("2- Afficher tous les RDV\n");
     printf("3- Modifier un RDV\n");

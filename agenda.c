@@ -147,19 +147,29 @@ void traiterChoixMenu2(int choix, struct Agenda *agenda) {
             // print libelles
             afficherTousLesAppointments(agenda);
 
-            char rdvName[LGMAX_LIBEL];
-            afficherRDV(agenda->appointments[lireIdRDV(agenda->rdvAmount) - 1]);
-
+            if (agenda->rdvAmount > 0) {
+                afficherRDV(agenda->appointments[lireIdRDV(agenda->rdvAmount) - 1]);
+            } else {
+                printf("\nL'agenda est vide.");
+            }
             break;
         case 2:
 
-            for (int i = 0; i < agenda->rdvAmount; i++) {
-                afficherRDV(agenda->appointments[i]);
+            if (agenda->rdvAmount > 0) {
+                for (int i = 0; i < agenda->rdvAmount; i++) {
+                    afficherRDV(agenda->appointments[i]);
+                }
+            } else {
+                printf("\nL'agenda est vide.");
             }
             break;
         case 3:
 
-            traiterChoixModifierUnRdv(agenda);
+            if (agenda->rdvAmount > 0) {
+                traiterChoixModifierUnRdv(agenda);
+            } else {
+                printf("\nL'agenda est vide.");
+            }
             break;
         case 4:
 
@@ -167,11 +177,19 @@ void traiterChoixMenu2(int choix, struct Agenda *agenda) {
             break;
         case 5:
 
-            traiterChoixSupprimerRDV(agenda);
+            if (agenda->rdvAmount > 0) {
+                traiterChoixSupprimerRDV(agenda);
+            } else {
+                printf("\nL'agenda est vide.");
+            }
             break;
         case 6:
 
-            traiterChoixSupprimerTousLesRDV(agenda);
+            if (agenda->rdvAmount > 0) {
+                traiterChoixSupprimerTousLesRDV(agenda);
+            } else {
+                printf("\nL'agenda est vide.");
+            }
             break;
     }
 }
