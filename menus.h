@@ -7,6 +7,8 @@ void traiterChoixCreerAgenda();
 
 void traiterChoixOuvrirAgenda();
 
+void traiterChoixAfficherUnRDV(struct Agenda *);
+
 void traiterChoixModifierUnRdv(struct Agenda *);
 
 void traiterChoixAjouterRDV(struct Agenda *);

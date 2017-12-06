@@ -5,6 +5,8 @@
 #include <time.h>
 #include "menus.h"
 #include "rdv.h"
+#include "colors.h"
+#include "colors.c"
 
 void traiterChoixCreerAgenda() {
 
@@ -97,6 +99,14 @@ void traiterChoixOuvrirAgenda() {
     fclose(fp);
 }
 
+void traiterChoixAfficherUnRDV(struct Agenda *agenda) {
+
+    // print libelles
+    afficherTousLesAppointments(agenda);
+    printf("Numero du rendez-vous : ");
+    afficherRDV(agenda->appointments[lireIdRDV(agenda->rdvAmount) - 1]);
+}
+
 void traiterChoixModifierUnRdv(struct Agenda *agenda) {
 
     afficherTousLesAppointments(agenda);
@@ -147,7 +157,9 @@ void traiterChoixAjouterRDV(struct Agenda *agenda) {
 
     agenda->appointments[agenda->rdvAmount] = lireRDV();
     agenda->rdvAmount++;
-    afficherRDV(agenda->appointments[agenda->rdvAmount]);
+
+    afficherRDV(agenda->appointments[agenda->rdvAmount - 1]);
+    printf("Rendez-vous '%s' enregistré", agenda->appointments[agenda->rdvAmount - 1].title);
 }
 
 void traiterChoixSupprimerRDV(struct Agenda *agenda) {
@@ -159,20 +171,22 @@ void traiterChoixSupprimerRDV(struct Agenda *agenda) {
     int rdvToDelete = lireIdRDV(agenda->rdvAmount);
 
     supprimerRDV(rdvToDelete - 1, agenda);
+
+    printf("Rendez-vous supprimé");
 }
 
 void traiterChoixSupprimerTousLesRDV(struct Agenda *agenda) {
 
-    printf("Etes-vous sûr de vouloir supprimer tous les rendez-vous ? (o/n) : ");
+    printf("Etes-vous sûr de vouloir supprimer tous les rendez-vous ? (1 = oui/0 = non) : ");
 
-    char confirm[4];
-    scanf("%s", confirm);
-    while (strcmp(confirm, "o") != 0 && strcmp(confirm, "n") != 0) {
-        printf("\nTapez 'o' pour confirmer, 'n' sinon : ");
-        scanf("%s", confirm);
+    int confirm = -1;
+    scanf("%d", &confirm);
+    while (confirm != 1 && confirm != 0) {
+        printf("\nTapez 1 pour confirmer, 0 sinon : ");
+        scanf("%d", &confirm);
     }
 
-    if (strcmp(confirm, "o") == 0) {
+    if (confirm == 1) {
 
         int nbRdv = agenda->rdvAmount;
         for (int i = 0; i < nbRdv; i++) {
@@ -202,21 +216,22 @@ void traiterChoixSauvegarderEtFermer(struct Agenda *agenda) {
 }
 
 void afficherMenu1() {
-    printf("\n> Menu 1\n\n");
-    printf("1- Creer un nouvel agenda\n");
-    printf("2- Ouvrir un agenda existant\n");
-    printf("3- Quitter\n\n");
+    printf("\n");
+    printfColour("> Menu 1", "cyan", "green");
+    printf("\n\n1 - Creer un nouvel agenda\n");
+    printf("2 - Ouvrir un agenda existant\n");
+    printf("3 - Quitter\n\n");
 }
 
 void afficherMenu2() {
     printf("\n> Menu 2\n\n");
-    printf("1- Afficher un RDV\n");
-    printf("2- Afficher tous les RDV\n");
-    printf("3- Modifier un RDV\n");
-    printf("4- Ajouter un RDV\n");
-    printf("5- Supprimer un RDV\n");
-    printf("6- Supprimer tous les RDV\n");
-    printf("7- Sauvegarder & fermer l’agenda\n\n");
+    printf("1 - Afficher un RDV\n");
+    printf("2 - Afficher tous les RDV\n");
+    printf("3 - Modifier un RDV\n");
+    printf("4 - Ajouter un RDV\n");
+    printf("5 - Supprimer un RDV\n");
+    printf("6 - Supprimer tous les RDV\n");
+    printf("7 - Sauvegarder & fermer l’agenda\n\n");
 }
 
 int lireChoix(int minVal, int maxVal) {

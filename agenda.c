@@ -139,58 +139,39 @@ void traiterChoixMenu1(int choix) {
 
 void traiterChoixMenu2(int choix, struct Agenda *agenda) {
 
+    if (agenda->rdvAmount > 0 || choix == 4) {
 
-    switch (choix) {
+        switch (choix) {
 
-        case 1:
+            case 1:
 
-            // print libelles
-            afficherTousLesAppointments(agenda);
+                traiterChoixAfficherUnRDV(agenda);
+                break;
+            case 2:
 
-            if (agenda->rdvAmount > 0) {
-                afficherRDV(agenda->appointments[lireIdRDV(agenda->rdvAmount) - 1]);
-            } else {
-                printf("\nL'agenda est vide.");
-            }
-            break;
-        case 2:
-
-            if (agenda->rdvAmount > 0) {
                 for (int i = 0; i < agenda->rdvAmount; i++) {
                     afficherRDV(agenda->appointments[i]);
                 }
-            } else {
-                printf("\nL'agenda est vide.");
-            }
-            break;
-        case 3:
+                break;
+            case 3:
 
-            if (agenda->rdvAmount > 0) {
                 traiterChoixModifierUnRdv(agenda);
-            } else {
-                printf("\nL'agenda est vide.");
-            }
-            break;
-        case 4:
+                break;
+            case 4:
 
-            traiterChoixAjouterRDV(agenda);
-            break;
-        case 5:
+                traiterChoixAjouterRDV(agenda);
+                break;
+            case 5:
 
-            if (agenda->rdvAmount > 0) {
                 traiterChoixSupprimerRDV(agenda);
-            } else {
-                printf("\nL'agenda est vide.");
-            }
-            break;
-        case 6:
+                break;
+            case 6:
 
-            if (agenda->rdvAmount > 0) {
                 traiterChoixSupprimerTousLesRDV(agenda);
-            } else {
-                printf("\nL'agenda est vide.");
-            }
-            break;
+                break;
+        }
+    } else {
+        printf("\nL'agenda est vide.");
     }
 }
 
@@ -220,7 +201,6 @@ int supprimerRDV(int rdvId, struct Agenda *agenda) {
 int lireIdRDV(int rdvIdMax) {
 
     int rdvId = -1;
-    printf("Numero du rendez-vous : ");
     scanf("%d", &rdvId);
     while (rdvId < 1 || rdvId > rdvIdMax) {
 

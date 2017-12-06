@@ -2,6 +2,7 @@
 #include "agenda.h"
 
 int dateCorrecte(struct Date date) {
+
     int daysinmonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int legit = 0;
 
@@ -23,11 +24,15 @@ struct Date lireDate() {
     int month;
     int year;
 
-    scanf("%02d/%02d/%04d", &day, &month, &year);
+    do {
 
-    date.day = day;
-    date.month = month;
-    date.year = year;
+        scanf("%02d/%02d/%04d", &day, &month, &year);
+
+        date.day = day;
+        date.month = month;
+        date.year = year;
+
+    } while (dateCorrecte(date) == 0);
 
     return date;
 }

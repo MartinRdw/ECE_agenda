@@ -1,11 +1,15 @@
 #include <stdio.h>
+#include <string.h>
 #include "agenda.h"
 #include "date.h"
 #include "horaire.h"
 #include "rdv.h"
 
 int horaireCoherents(struct Appointment appointment) {
-    return 0;
+
+    return (appointment.startSchedule.hour < appointment.endSchedule.hour) ||
+           (appointment.startSchedule.hour == appointment.endSchedule.hour &&
+            appointment.startSchedule.minute <= appointment.endSchedule.minute);
 }
 
 struct Appointment lireRDV() {
@@ -14,19 +18,23 @@ struct Appointment lireRDV() {
 
     // titre
     printf("\nPlanification d'un nouveau rendez-vous\nTitre : ");
-    scanf("%s", appointment.title);
+    strcpy(appointment.title, lireLibelleRDV());
 
     // date
     printf("\nDate (format JJ/MM/AAAA) : ");
     appointment.date = lireDate();
 
-    // horaire debut
-    printf("\nHoraire de debut (format HH:MM) : ");
-    appointment.startSchedule = lireHoraire();
+    do {
 
-    // horaire fin
-    printf("\nHoraire de fin (format HH:MM) : ");
-    appointment.endSchedule = lireHoraire();
+        // horaire debut
+        printf("\nHoraire de debut (format HH:MM) : ");
+        appointment.startSchedule = lireHoraire();
+
+        // horaire fin
+        printf("\nHoraire de fin (format HH:MM) : ");
+        appointment.endSchedule = lireHoraire();
+
+    } while (!horaireCoherents(appointment));
 
     return appointment;
 }

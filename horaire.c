@@ -11,10 +11,14 @@ struct Schedule lireHoraire() {
     int hour;
     int minute;
 
-    scanf("%d:%d", &hour, &minute);
+    do {
 
-    schedule.hour = hour;
-    schedule.minute = minute;
+        scanf("%d:%d", &hour, &minute);
+
+        schedule.hour = hour;
+        schedule.minute = minute;
+
+    } while (!horaireCorrect(schedule));
 
     return schedule;
 }
