@@ -95,9 +95,9 @@ void traiterChoixOuvrirAgenda() {
                     ) {
                 if (tm.tm_min - agenda.appointments[i].startSchedule.minute < 15) {
                     printf("\n\n");
-                    printfColour("Rappel :", "grey", "red");
-                    printf(" %s", agenda.appointments[i].title);
-                    printf("\n\n");
+                    printfColour(" Rappel :", "grey", "red");
+                    printf(" Dans %d minutes\n", agenda.appointments[i].startSchedule.minute - tm.tm_min);
+                    afficherRDV(agenda.appointments[i]);
                 }
             }
 
