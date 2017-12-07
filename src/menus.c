@@ -3,10 +3,10 @@
 #include <dirent.h>
 #include <string.h>
 #include <time.h>
-#include "menus.h"
-#include "rdv.h"
-#include "colors.h"
-#include "colors.c"
+#include "../headers/menus.h"
+#include "../headers/rdv.h"
+#include "../headers/lib/colors.h"
+#include "lib/colors.c"
 
 void traiterChoixCreerAgenda() {
 
@@ -50,6 +50,9 @@ void traiterChoixOuvrirAgenda() {
 
     } else {
 
+        time_t t = time(NULL);
+        struct tm tm = *localtime(&t);
+
         int i = 0;
         while ((read = getline(&line, &len, fp)) != -1) {
 
@@ -84,6 +87,19 @@ void traiterChoixOuvrirAgenda() {
             // title
             split = strtok(NULL, ",");
             strcpy(agenda.appointments[i].title, strtok(split, "\n"));
+
+            if (agenda.appointments[i].date.year == tm.tm_year + 1900 &&
+                agenda.appointments[i].date.month == tm.tm_mon + 1 &&
+                agenda.appointments[i].date.day == tm.tm_mday &&
+                agenda.appointments[i].startSchedule.hour == tm.tm_hour
+                    ) {
+                if (tm.tm_min - agenda.appointments[i].startSchedule.minute < 15) {
+                    printf("\n\n");
+                    printfColour("Rappel :", "grey", "red");
+                    printf(" %s", agenda.appointments[i].title);
+                    printf("\n\n");
+                }
+            }
 
             i++;
         }

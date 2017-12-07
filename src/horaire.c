@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "agenda.h"
+#include "../headers/agenda.h"
 
 int horaireCorrect(struct Schedule schedule) {
     return !(schedule.hour < 0 || schedule.hour > 23 || schedule.minute < 0 || schedule.minute > 59);

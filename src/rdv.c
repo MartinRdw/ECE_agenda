@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <string.h>
-#include "agenda.h"
-#include "date.h"
-#include "horaire.h"
-#include "rdv.h"
+#include "../headers/agenda.h"
+#include "../headers/date.h"
+#include "../headers/horaire.h"
+#include "../headers/rdv.h"
 
 int horaireCoherents(struct Appointment appointment) {
 

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "agenda.h"
+#include "../headers/agenda.h"
 
 int dateCorrecte(struct Date date) {
 
